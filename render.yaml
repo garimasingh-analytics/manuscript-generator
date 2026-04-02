@@ -1,0 +1,44 @@
+services:
+  # Backend API (Docker)
+  - type: web
+    name: manuscript-writer-api
+    env: docker
+    rootDir: backend
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /docs
+    envVars:
+      - key: MONGO_URL
+        sync: false
+      - key: MONGO_DB_NAME
+        value: manuscript_writer
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRE_MINUTES
+        value: "10080"
+      - key: LITELLM_MODEL
+        value: claude-sonnet-4-5
+      - key: LITELLM_API_KEY
+        sync: false
+      # Set this after the frontend URL is known
+      - key: CORS_ORIGINS
+        sync: false
+
+  # Frontend (Static Site)
+  - type: web
+    name: manuscript-writer-web
+    env: static
+    rootDir: frontend
+    plan: starter
+    autoDeploy: true
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Set to your API URL, e.g. https://manuscript-writer-api.onrender.com
+      - key: VITE_API_BASE_URL
+        sync: false
+
