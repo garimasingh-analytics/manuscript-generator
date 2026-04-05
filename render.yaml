@@ -29,7 +29,7 @@ services:
     name: manuscript-writer-web
     env: static
     rootDir: frontend
-    plan: starter
+    plan: free
     autoDeploy: true
     buildCommand: npm install && npm run build
     staticPublishPath: dist
