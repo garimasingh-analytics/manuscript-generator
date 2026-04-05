@@ -4,7 +4,7 @@ services:
     name: manuscript-writer-api
     env: docker
     rootDir: backend
-    plan: starter
+    plan: free
     autoDeploy: true
     healthCheckPath: /docs
     envVars:
